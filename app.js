@@ -46,7 +46,8 @@ const tvShows = {
 					const status = document.createElement('p');
 					const rating = document.createElement('p');
 					rating.classList.add('inline__p');
-					plot.classList.add('inline__p');
+					title.classList.add('title');
+					plot.classList.add('plot');
 					// const bold = document.createElement('strong');
 					div.classList.add('about__movie');
 					showResults.classList.remove('results');
@@ -55,7 +56,7 @@ const tvShows = {
 					// bold.append(`Language - `);
 					// div.append(bold);
 					plot.innerHTML = `${data.show.summary}`;
-					div.append(plot);
+					section.append(plot);
 					div.append(br);
 					language.innerHTML = `<strong>LANGUAGE</strong> - ${data.show.language}`;
 					div.append(language);
@@ -79,15 +80,9 @@ const tvShows = {
 						rating.innerHTML = `<strong>RATING</strong> - `;
 						div.append(rating);
 						div.append(starsOuter);
-						// div.append(`${rating.textContent}/10`);
 						div.append(br);
 					}
 					div.append(br);
-
-					// const summ = data.show.summary;
-
-					// plot.append(`PLOT - ${summ}`);
-
 					showResults.append(section);
 					section.append(div);
 				});
@@ -102,10 +97,14 @@ form.addEventListener('submit', async (e) => {
 		showResults.innerHTML = null;
 
 		let formVal = form.elements.search.value;
-		const results = await tvShows.searchApi(formVal);
-		tvShows.renderResults(results);
+		// if (input.innerText) {
+			const results = await tvShows.searchApi(formVal);
+			tvShows.renderResults(results);
+		// }
 		input.value = '';
 	} catch (error) {
 		console.log(error);
 	}
 });
+
+console.dir(input);
