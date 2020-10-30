@@ -6,7 +6,7 @@ const tvShows = {
 	async searchApi(searchTerm) {
 		try {
 			const config = { params: { q: searchTerm } };
-			const results = await axios.get(`http://api.tvmaze.com/search/shows`, config);
+			const results = await axios.get(`https://api.tvmaze.com/search/shows`, config);
 			return results.data;
 		} catch (error) {
 			console.log(error);
@@ -25,7 +25,6 @@ const tvShows = {
 				section.classList.add('movie__show__card', 'grow');
 				showResults.classList.add('results');
 				section.classList.remove('show__result__card');
-				// console.dir(showResults);
 				img.src = imgSrc.original;
 				title.textContent = name;
 				figure.append(img);
@@ -97,14 +96,10 @@ form.addEventListener('submit', async (e) => {
 		showResults.innerHTML = null;
 
 		let formVal = form.elements.search.value;
-		// if (input.innerText) {
 			const results = await tvShows.searchApi(formVal);
 			tvShows.renderResults(results);
-		// }
 		input.value = '';
 	} catch (error) {
 		console.log(error);
 	}
 });
-
-console.dir(input);
