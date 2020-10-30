@@ -116,7 +116,7 @@ figure {
 }
 
 .title{
-	padding-left: 30px;
+	padding: 0px 30px;
 }
 
 .grow {
@@ -169,10 +169,6 @@ figure {
 }
 
 
-/* h3{
-    text-align: center;
-} */
-
 @media only screen and (max-width: 1025px) {
 	.results {
 		grid-template-columns: 1fr 1fr;
@@ -191,15 +187,15 @@ figure {
 		grid-template-columns: 1fr;
 	}
 
-	.movie__show__card {
-		/* margin: 10px auto; */
-	}
-
 	h2.welcome__h2 {
 		font-size: 27px;
 	}
 
 	.welcome__h1 {
 		font-size: 27px;
+	}
+
+	.about__movie{
+		margin: 10px;
 	}
 }
