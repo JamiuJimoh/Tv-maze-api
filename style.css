@@ -27,6 +27,10 @@ body {
 	color: rgb(230, 230, 230);
 }
 
+.not__found {
+	color: rgb(230, 230, 230);
+}
+
 h2.welcome__h2 {
 	font-family: 'Italianno', cursive;
 	letter-spacing: 3px;
@@ -109,13 +113,13 @@ figure {
 .about__movie {
 	padding: 4px 15px 15px;
 	margin: 15px;
-	background: #F7F7F7;
+	background: #f7f7f7;
 	width: 300px;
 	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
 	border-radius: 20px;
 }
 
-.title{
+.title {
 	padding: 0px 30px;
 }
 
@@ -135,7 +139,7 @@ figure {
 	display: inline;
 }
 
-.plot{
+.plot {
 	padding: 0px 30px 10px;
 }
 
@@ -168,7 +172,6 @@ figure {
 	color: #f8ce0b;
 }
 
-
 @media only screen and (max-width: 1025px) {
 	.results {
 		grid-template-columns: 1fr 1fr;
@@ -183,6 +186,11 @@ figure {
 	.body {
 		width: 100%;
 	}
+
+	.not__found {
+		font-size: 27px;
+	}
+
 	.results {
 		grid-template-columns: 1fr;
 	}
@@ -195,7 +203,7 @@ figure {
 		font-size: 27px;
 	}
 
-	.about__movie{
+	.about__movie {
 		margin: 10px;
 	}
 }

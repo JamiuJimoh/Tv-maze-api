@@ -1,3 +1,4 @@
+const body = document.querySelector('body');
 const form = document.querySelector('form');
 const input = document.querySelector('input');
 const showResults = document.querySelector('.results');
@@ -14,6 +15,12 @@ const tvShows = {
 	},
 
 	renderResults(res) {
+		if (res.length === 0) {
+			const notFound = document.createElement('div');
+			notFound.innerHTML = `<h1 class="not__found">Sorry, no found result, please input a valid tv show and try again.</h1>`;
+			body.append(notFound);
+		}
+
 		for (let data of res) {
 			const imgSrc = data.show.image;
 			const name = data.show.name;
@@ -96,8 +103,11 @@ form.addEventListener('submit', async (e) => {
 		showResults.innerHTML = null;
 
 		let formVal = form.elements.search.value;
-			const results = await tvShows.searchApi(formVal);
-			tvShows.renderResults(results);
+		if (!input.value.length) {
+			return;
+		}
+		const results = await tvShows.searchApi(formVal);
+		tvShows.renderResults(results);
 		input.value = '';
 	} catch (error) {
 		console.log(error);
