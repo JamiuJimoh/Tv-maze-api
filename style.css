@@ -82,7 +82,7 @@ figure {
 	/* border: 2px solid red; */
 	background: #fff;
 	width: 300px;
-	/* height: 200px; */
+	// height: 100%;
 	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.2);
 	border-radius: 20px;
 	transition: 0.3s;
@@ -205,5 +205,9 @@ figure {
 
 	.about__movie {
 		margin: 10px;
+	}
+
+	.search {
+		padding-left: 5px;
 	}
 }

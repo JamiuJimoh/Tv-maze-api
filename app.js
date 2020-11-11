@@ -1,115 +1,79 @@
-const body = document.querySelector('body');
 const form = document.querySelector('form');
 const input = document.querySelector('input');
 const showResults = document.querySelector('.results');
+const showSummary = document.querySelector('.summary');
 
 const tvShows = {
+	renderOption(tvshow) {
+		const imgSrc = tvshow.show.image.original;
+		return `
+			<figure>
+				<img src="${imgSrc}" />
+			</figure>
+			<h1 class='title'>${tvshow.show.name}</h1>
+		`;
+	},
+
 	async searchApi(searchTerm) {
 		try {
 			const config = { params: { q: searchTerm } };
 			const results = await axios.get(`https://api.tvmaze.com/search/shows`, config);
+			input.value = '';
+
 			return results.data;
 		} catch (error) {
 			console.log(error);
 		}
 	},
 
-	renderResults(res) {
-		if (res.length === 0) {
-			const notFound = document.createElement('div');
-			notFound.innerHTML = `<h1 class="not__found">Sorry, no found result, please input a valid tv show and try again.</h1>`;
-			body.append(notFound);
-		}
-
-		for (let data of res) {
-			const imgSrc = data.show.image;
-			const name = data.show.name;
-			if (data.show.image) {
-				const section = document.createElement('section');
-				const figure = document.createElement('figure');
-				const img = document.createElement('img');
-				const title = document.createElement('h1');
-				section.classList.add('movie__show__card', 'grow');
-				showResults.classList.add('results');
-				section.classList.remove('show__result__card');
-				img.src = imgSrc.original;
-				title.textContent = name;
-				figure.append(img);
-				section.append(figure);
-				section.append(title);
-				showResults.append(section);
-
-				section.addEventListener('click', () => {
-					showResults.innerHTML = null;
-					const div = document.createElement('div');
-					const starsInner = document.createElement('div');
-					const starsOuter = document.createElement('div');
-					const br = document.createElement('br');
-					const language = document.createElement('p');
-					const plot = document.createElement('p');
-					const genres = document.createElement('p');
-					const premiered = document.createElement('p');
-					const status = document.createElement('p');
-					const rating = document.createElement('p');
-					rating.classList.add('inline__p');
-					title.classList.add('title');
-					plot.classList.add('plot');
-					// const bold = document.createElement('strong');
-					div.classList.add('about__movie');
-					showResults.classList.remove('results');
-					section.classList.remove('movie__show__card', 'grow');
-					section.classList.add('show__result__card');
-					// bold.append(`Language - `);
-					// div.append(bold);
-					plot.innerHTML = `${data.show.summary}`;
-					section.append(plot);
-					div.append(br);
-					language.innerHTML = `<strong>LANGUAGE</strong> - ${data.show.language}`;
-					div.append(language);
-					div.append(br);
-					genres.innerHTML = `<strong>GENRES</strong> - ${data.show.genres}`;
-					div.append(genres);
-					div.append(br);
-					premiered.innerHTML = `<strong>PREMIERED</strong> - ${data.show.premiered}`;
-					div.append(premiered);
-					div.append(br);
-					status.innerHTML = `<strong>STATUS</strong> - ${data.show.status}`;
-					div.append(status);
-					div.append(br);
-					if (data.show.rating.average) {
-						starsInner.classList.add('stars__inner');
-						starsOuter.classList.add('stars__outer');
-						starsOuter.append(starsInner);
-						const starPercentage = data.show.rating.average / 10 * 100;
-						const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
-						starsInner.style.width = starPercentageRounded;
-						rating.innerHTML = `<strong>RATING</strong> - `;
-						div.append(rating);
-						div.append(starsOuter);
-						div.append(br);
-					}
-					div.append(br);
-					showResults.append(section);
-					section.append(div);
-				});
-			}
-		}
+	async onOptionSelect(tvshow) {
+		showSummary.innerHTML = await onMovieSelect(tvshow);
 	}
 };
 
-form.addEventListener('submit', async (e) => {
-	try {
-		e.preventDefault();
-		showResults.innerHTML = null;
-
-		let formVal = form.elements.search.value;
-		if (!input.value.length) {
-			return;
-		}
-		const results = await tvShows.searchApi(formVal);
-		tvShows.renderResults(results);
-		input.value = '';
-	} catch (error) {
-		console.log(error);
-	}
+displayConfig({
+	...tvShows,
+	root: showResults
 });
+
+const onMovieSelect = async ({ show }) => {
+	showResults.innerHTML = null;
+	const imgSrc = show.image.original;
+	const stars = document.createElement('div');
+	const starsInner = document.createElement('div');
+	const starsOuter = document.createElement('div');
+	const rating = document.createElement('p');
+	rating.classList.add('inline__p');
+	if (show.rating.average) {
+		starsInner.classList.add('stars__inner');
+		starsOuter.classList.add('stars__outer');
+		starsOuter.append(starsInner);
+		const starPercentage = show.rating.average / 10 * 100;
+		const starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+		starsInner.style.width = starPercentageRounded;
+		rating.innerHTML = `<strong>RATING</strong> - `;
+		stars.append(rating);
+		stars.append(starsOuter);
+	} else {
+		stars.innerHTML = '';
+	}
+
+	return `
+		<section class="show__result__card">
+			<figure>
+				<img src="${imgSrc}" />
+			</figure>
+			<h1 class="title">${show.name}</h1>
+			<article class="plot">${show.summary}</article>
+			
+			<div class="about__movie">
+				<p><strong>LANGUAGE</strong> - ${show.language}</p>
+				<p><strong>GENRES</strong> - ${show.genres}</p>
+				<p><strong>LANGUAGE</strong> - ${show.language}</p>
+				<p><strong>PREMIERED</strong> - ${show.premiered}</p>
+				<p><strong>STATUS</strong> - ${show.status}</p>
+				${stars.innerHTML}
+			</div>
+		</section>
+	`;
+};
