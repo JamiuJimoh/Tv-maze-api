@@ -21,6 +21,7 @@ const tvShows = {
 			const config = { params: { q: searchTerm } };
 			const results = await axios.get(`https://api.tvmaze.com/search/shows`, config);
 			input.value = '';
+			showSummary.innerHTML = '';
 
 			if (!results.data.length) {
 				notFound.classList.remove('hide');
