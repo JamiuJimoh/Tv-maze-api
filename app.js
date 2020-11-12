@@ -22,16 +22,15 @@ const tvShows = {
 			const results = await axios.get(`https://api.tvmaze.com/search/shows`, config);
 			input.value = '';
 			showSummary.innerHTML = '';
+			
 
 			if (!results.data.length) {
 				notFound.classList.remove('hide');
 				main.innerHTML = '';
-				console.log(notFound.classList.value);
 			} else if (results.data.length) {
 				notFound.classList.add('hide');
 			}
 
-			console.log(notFound.classList.value);
 			return results.data;
 		} catch (error) {
 			console.log(error);
