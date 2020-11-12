@@ -2,6 +2,8 @@ const form = document.querySelector('form');
 const input = document.querySelector('input');
 const showResults = document.querySelector('.results');
 const showSummary = document.querySelector('.summary');
+const notFound = document.querySelector('.not__found');
+const main = document.querySelectorAll('.main');
 
 const tvShows = {
 	renderOption(tvshow) {
@@ -20,6 +22,15 @@ const tvShows = {
 			const results = await axios.get(`https://api.tvmaze.com/search/shows`, config);
 			input.value = '';
 
+			if (!results.data.length) {
+				notFound.classList.remove('hide');
+				main.innerHTML = '';
+				console.log(notFound.classList.value);
+			} else if (results.data.length) {
+				notFound.classList.add('hide');
+			}
+
+			console.log(notFound.classList.value);
 			return results.data;
 		} catch (error) {
 			console.log(error);
@@ -28,6 +39,15 @@ const tvShows = {
 
 	async onOptionSelect(tvshow) {
 		showSummary.innerHTML = await onMovieSelect(tvshow);
+	},
+
+	resultNotFound() {
+		return `
+			<h1 class="not__found">
+				Sorry, no results match your search input.
+				Please search again with a valid title!
+			</h1>
+		`;
 	}
 };
 

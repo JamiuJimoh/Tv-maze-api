@@ -11,14 +11,15 @@ displayConfig = ({ root, searchApi, renderOption, onOptionSelect }) => {
 				return;
 			}
 			const items = await searchApi(formVal);
+			
 			const filteredItems = items.filter((img) => img.show.image !== null);
 			for (let item of filteredItems) {
 				const option = document.createElement('section');
 				option.classList.add('movie__show__card', 'grow');
 				option.innerHTML = renderOption(item);
 				option.addEventListener('click', (e) => {
-                    input.value = '';
-                    onOptionSelect(item)
+					input.value = '';
+					onOptionSelect(item);
 				});
 				root.append(option);
 			}

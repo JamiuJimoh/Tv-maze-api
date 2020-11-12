@@ -31,6 +31,10 @@ body {
 	color: rgb(230, 230, 230);
 }
 
+.hide{
+	display: none;
+}
+
 h2.welcome__h2 {
 	font-family: 'Italianno', cursive;
 	letter-spacing: 3px;
